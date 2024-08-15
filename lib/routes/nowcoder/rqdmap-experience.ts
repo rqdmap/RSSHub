@@ -37,7 +37,7 @@ export const route: Route = {
 };
 
 function escapeXML(str: string) {
-    return str.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll('\'', '&apos;');
+    return str.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&apos;');
 }
 
 async function handler(ctx) {
@@ -75,7 +75,7 @@ async function handler(ctx) {
         } else if (x.momentData) {
             const info = {
                 title: x.momentData.title,
-                link: new URL('discuss/' + x.contentId, host).href, // 仅为填充 link 字段
+                link: new URL('feed/main/detail/' + x.momentData.uuid, host).href,
                 author: x.userBrief.nickname + '(' + x.userBrief.educationInfo + ')',
                 pubDate: timezone(parseDate(x.momentData.createAt), +8),
                 category: 'momentData',
@@ -88,7 +88,7 @@ async function handler(ctx) {
     });
 
     return {
-        title: `牛客面经-rqdmap自用`,
+        title: `牛客面经-${ctx.req.param('page')}`,
         link: link.href,
         item: list,
     };
